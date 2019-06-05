@@ -1,0 +1,35 @@
+/*
+ * Make it Rain uses arrays to make objects fall from the top of the
+ * screen to the bottom and then reappear at the top. The shapes that
+ * fall are random colors. The user can click on the screen to create 
+ * new objects.
+ */
+
+var xPositions = [];
+var yPositions = [];
+var rainShapes = [];
+var colorArray = [color(224, 29, 224)];
+
+var itsRaining = function(){// Generates the falling shapes
+    for (var i = 0; i < xPositions.length; i++) {
+        var colorValue = colorArray[i];
+        fill(colorArray[i]);
+        ellipse(xPositions[i], yPositions[i], 10, 10);
+        if(yPositions[i] > 400){
+            yPositions[i] = 0;
+        }else{    
+            yPositions[i] += 5;
+        }
+    }
+};
+
+draw = function() {//takes in user input for dynamic interaction
+    background(204, 247, 255);
+    noStroke();
+    mouseClicked = function(){
+        xPositions.push(mouseX);
+        yPositions.push(mouseY);
+        colorArray.push(color(random(0, 255),random(0, 255), random(0, 255)));
+    };
+    itsRaining();  
+};
