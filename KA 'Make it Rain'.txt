@@ -7,31 +7,44 @@
 
 var xPositions = [200];
 var yPositions = [0];
-var rainShapes = [];
+var rainShapes = [23];
 var colorArray = [color(224, 29, 224)];
 
 
-for (var j = 0; j < 10; j++){
+for (var j = 0; j < 10; j++){//initializes random shapes at the start
     xPositions.push(random(5,395));
     yPositions.push(random(0,400));
+    rainShapes.push(random(0,24));
     colorArray.push(color(random(0, 255),random(0, 255), random(0, 255)));
 }
-mouseClicked = function(){
+mouseClicked = function(){//used to call a shape when the mouse is clicked
     xPositions.push(mouseX);
     yPositions.push(mouseY);
+    rainShapes.push(random(0,25));
     colorArray.push(color(random(0, 255),random(0, 255), random(0, 255)));
 };
 draw = function() {//takes in user input for dynamic interaction
     background(204, 247, 255);
     noStroke();
-for (var i = 0; i < xPositions.length; i++) {
+    for (var i = 0; i < xPositions.length; i++) {
         var colorValue = colorArray[i];
         fill(colorArray[i]);
-        ellipse(xPositions[i], yPositions[i], 10, 10);
-        if(yPositions[i] > 400){
+        if (rainShapes[i] < 6){
+            ellipse(xPositions[i], yPositions[i], 10, 10);
+        }else if (rainShapes[i] < 12){
+            rect( xPositions[i], yPositions[i], 10, 10);
+        }else if (rainShapes[i] < 18){
+            triangle(xPositions[i], yPositions[i], xPositions[i] + 10, yPositions[i], 
+            xPositions[i] + 5, yPositions[i] + 10);
+        }else if (rainShapes[i] < 24){//draws a rock from the image files
+            image(getImage("cute/Rock"), xPositions[i], yPositions[i], 25, 25);
+        }else {//draws a rocket kid from the image files
+            image(getImage("space/rocketship"), xPositions[i], yPositions[i], 40, 80);
+        }
+        if(yPositions[i] > 400){//resets the shapes to the top
             yPositions[i] = 0;
         }else{    
-            yPositions[i] += 5;
+            yPositions[i] += 5;//iterates the shapes downwards
         }
     }
 };
